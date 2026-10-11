@@ -33,13 +33,15 @@ npm run dev          # opens http://localhost:3030
 ## 2 · What's where
 
 ```
-slides.md                ← the whole deck (12 slides, ~5 words per slide)
+slides.md                ← the whole deck (9 slides, ~5 words per slide, ~5 min pitch)
 components/
-  CrewStory.vue          ← the architecture as an animated short film (10 clicks)
+  CrewStory.vue          ← the architecture as an animated short film (9 clicks)
   DetectiveDesk.vue      ← "The Detective · under the hood": clue → Detective → source → mini map, then the receipt (4 clicks)
   PanoStrip.vue          ← endlessly panning 360° panorama (inline strip or full-bleed background)
   BigNumber.vue          ← count-up KPI, accepts "??" as placeholder
   DistanceStrip.vue      ← log-scale dot strip of every panorama's error, reads data/batch1.json (2 clicks)
+  CrewMap.vue            ← interactive crew architecture (not used in the current deck)
+  ScoreLab.vue           ← playground for the official scoring formula (not used in the current deck)
 data/batch1.json         ← batch-1 results (per-panorama error in metres, from the organisers); DistanceStrip.vue and the miss slides read it, edit here, not in the slide
 public/panos/*.jpg       ← the panoramas (2000×1000)
 styles/index.css         ← colours + reusable classes (.kicker .catch .pill .hero …)
@@ -57,7 +59,7 @@ Components in `components/` are auto-imported — just write `<PanoStrip src="/p
 ```md
 ---
 layout: default          # default (auto-centred) · center · full (edge to edge)
-clicks: 10               # optional: how many clicks this slide has
+clicks: 9                # optional: how many clicks this slide has
 ---
 
 <div class="kicker">Small label</div>
@@ -77,7 +79,7 @@ Speaker notes: the LAST comment of a slide. Only visible in presenter mode.
 
 ## 4 · The film (CrewStory) & TODOs
 
-- One click = one crew member walks on stage: card on the right, their job animated on the panorama/map, rail at the bottom fills up. Click 10 = overview.
+- One click = one crew member walks on stage: card on the right, their job animated on the panorama/map, rail at the bottom fills up. Click 9 = overview (the Scribe joins the flow there).
 - All texts live in `SCENES` at the top of `CrewStory.vue`; box positions in `READER` / `GEO` are % of the panorama.
 - Swap the demo panorama: change `PANO` and re-measure the boxes.
 - Full-bleed panorama on any slide: `layout: full` + `<PanoStrip src="..." fill shade />`.
@@ -87,9 +89,7 @@ grep -n "TODO" slides.md components/*.vue
 ```
 
 - **Results slide:** numbers are computed from `data/batch1.json` (median, under 100 m, exact). "Right country 20/20" is hardcoded; baseline score and time per panorama are still missing
-- **Boss level slide:** decide how you reveal A vs B
 - **Detective slide (`DetectiveDesk.vue`):** one click per lane (0 clues only · 1 Nominatim · 2 Overpass + Wikipedia · 3 pvlib sun check · 4 best pin + receipt). All lane data (clue, source, query chip, pins with confidence) sits in `LANES` at the top of the component; pins are `lng/lat` on the simplified Portugal outline. Logos are Iconify icons (`@iconify-json/simple-icons`, `@iconify-json/carbon`), no image files. The example clues and pins are placeholders: replace them with a real run from `runs/<id>/detective.json`
-- The log lines in the film are illustrative — swap in real ones from `runs/<id>/log.json` if you like
 
 ---
 
@@ -109,7 +109,7 @@ For a sub-folder on your own site:
 npx slidev build --base /junctionx/
 ```
 
-The PDF is a backup only — **present from the browser**, otherwise CrewMap and ScoreLab lose their interactivity.
+The PDF is a backup only — **present from the browser**, otherwise the animated slides lose their interactivity.
 
 ---
 
