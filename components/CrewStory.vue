@@ -4,9 +4,9 @@
  *
  * One Lisbon panorama travels through the crew. Each click = one agent walks on stage,
  * gets introduced (card on the right) and shows its job directly on the panorama / map.
- * Click 10 = overview of the whole crew.
+ * Click 9 = overview of the whole crew (the Scribe joins it at the end of the flow).
  *
- * Usage in slides.md:   clicks: 10   +   <CrewStory :step="$clicks" />
+ * Usage in slides.md:   clicks: 9   +   <CrewStory :step="$clicks" />
  * The rail at the bottom is clickable too (jump to any agent with the mouse).
  *
  * All overlay coordinates are in % of the 2000×1000 panorama, so they stay glued to the
@@ -29,8 +29,7 @@ const SCENES: { emoji: string; name: string; role: string; line: string; kind: K
   { emoji: '⚖️', name: 'Advocate', role: "The Devil's Advocate", line: 'Attacks the favourite.', kind: 'agent' },
   { emoji: '🧭', name: 'Navigator', role: 'The Captain', line: 'Asks only when it pays.', kind: 'agent' },
   { emoji: '♟️', name: 'Strategist', role: 'The Strategist', line: 'Ten pins. One spot.', kind: 'tool' },
-  { emoji: '✍️', name: 'Scribe', role: 'The Scribe', line: 'Every thought on the record.', kind: 'tool' },
-  { emoji: '🗺️', name: 'The crew', role: 'end to end', line: 'Panorama in. Ten pins out.', kind: 'story' },
+  { emoji: '🗺️', name: 'The crew', role: 'end to end', line: 'Panorama in. Ten pins out. Every step logged.', kind: 'story' },
 ]
 const LAST = SCENES.length - 1
 
@@ -77,16 +76,6 @@ const FLOW = [
   { e: '✍️', n: 'Scribe', x: 545, y: 150 },
 ]
 const FLOW_EDGES = [[0, 1], [1, 2], [1, 3], [2, 4], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8]]
-
-const LOG = [
-  ['+00:04', 'lens', '13 views cut'],
-  ['+00:31', 'reader', 'read “ABEL PEREIRA DA FONSECA”'],
-  ['+00:52', 'geographer', 'mosaic pavement + Art Nouveau'],
-  ['+01:12', 'detective', 'Marvila, Lisbon · receipt geo:7f3a9c'],
-  ['+01:40', 'human', 'MCQ → A (×0.95)'],
-  ['+02:05', 'strategist', '10 pins committed'],
-  ['+02:31', 'scribe', 'verified by organisers: 43 m'],
-]
 
 const dimPano = computed(() => s.value === 1 || s.value >= 5)
 const pad = (n: number) => String(n).padStart(2, '0')
@@ -198,17 +187,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
           </g>
         </svg>
 
-        <!-- 9 · Scribe: the log writes itself -->
-        <div class="layer logl" :class="{ on: s === 9 }">
-          <div class="term">
-            <div v-for="(r, i) in LOG" :key="i" class="row" :style="{ '--d': i }">
-              <span class="t">{{ r[0] }}</span><span class="a">{{ r[1] }}</span><span>{{ r[2] }}</span>
-            </div>
-            <div class="row cursor" :style="{ '--d': LOG.length }">▍</div>
-          </div>
-        </div>
-
-        <!-- 10 · overview -->
+        <!-- 9 · overview -->
         <svg class="layer ovl" :class="{ on: s === LAST }" viewBox="0 0 600 300">
           <line v-for="([a, b], i) in FLOW_EDGES" :key="'e' + i" :x1="FLOW[a].x" :y1="FLOW[a].y" :x2="FLOW[b].x" :y2="FLOW[b].y"
                 pathLength="1" class="fedge" :style="{ '--d': i }" />
@@ -337,16 +316,6 @@ const pad = (n: number) => String(n).padStart(2, '0')
 .mcq.on .opt.pick { fill: rgba(246,196,67,.18); stroke: var(--nav-tram); }
 .badge { fill: var(--nav-tram) !important; stroke: none !important; }
 .x10 { fill: var(--nav-night) !important; font-weight: 800; font-size: 14px !important; text-anchor: middle; }
-
-/* log */
-.logl { display: grid; place-items: center; }
-.term { width: 84%; background: rgba(7,17,27,.92); border: 1px solid var(--nav-line); border-radius: 12px; padding: 16px 18px;
-  font: 12px/1.9 var(--slidev-code-font-family, monospace); color: var(--nav-cream); }
-.row { opacity: 0; transform: translateY(6px); transition: all .4s var(--ease); transition-delay: calc(.3s + var(--d) * .45s); display: flex; gap: 14px; }
-.logl.on .row { opacity: 1; transform: none; }
-.row .t { color: var(--nav-muted); } .row .a { color: var(--nav-tram); width: 86px; flex: none; white-space: nowrap; }
-.cursor { color: var(--nav-tram); animation: blink 1s steps(1) infinite; }
-@keyframes blink { 50% { opacity: 0; } }
 
 /* overview */
 .fedge { stroke: var(--nav-azulejo-soft); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1;
