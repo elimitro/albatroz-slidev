@@ -36,6 +36,7 @@ npm run dev          # opens http://localhost:3030
 slides.md                ← the whole deck (12 slides, ~5 words per slide)
 components/
   CrewStory.vue          ← the architecture as an animated short film (10 clicks)
+  DetectiveDesk.vue      ← "The Detective · under the hood": clue → Detective → source → mini map, then the receipt (4 clicks)
   PanoStrip.vue          ← endlessly panning 360° panorama (inline strip or full-bleed background)
   BigNumber.vue          ← count-up KPI, accepts "??" as placeholder
   DistanceStrip.vue      ← log-scale dot strip of every panorama's error, reads data/batch1.json (2 clicks)
@@ -82,11 +83,12 @@ Speaker notes: the LAST comment of a slide. Only visible in presenter mode.
 - Full-bleed panorama on any slide: `layout: full` + `<PanoStrip src="..." fill shade />`.
 
 ```bash
-grep -n "TODO" slides.md
+grep -n "TODO" slides.md components/*.vue
 ```
 
 - **Results slide:** numbers are computed from `data/batch1.json` (median, under 100 m, exact). "Right country 20/20" is hardcoded; baseline score and time per panorama are still missing
 - **Boss level slide:** decide how you reveal A vs B
+- **Detective slide (`DetectiveDesk.vue`):** one click per lane (0 clues only · 1 Nominatim · 2 Overpass + Wikipedia · 3 pvlib sun check · 4 best pin + receipt). All lane data (clue, source, query chip, pins with confidence) sits in `LANES` at the top of the component; pins are `lng/lat` on the simplified Portugal outline. Logos are Iconify icons (`@iconify-json/simple-icons`, `@iconify-json/carbon`), no image files. The example clues and pins are placeholders: replace them with a real run from `runs/<id>/detective.json`
 - The log lines in the film are illustrative — swap in real ones from `runs/<id>/log.json` if you like
 
 ---

@@ -116,25 +116,17 @@ One sentence per agent, let the animation do the talking.
 -->
 
 ---
+clicks: 4
+---
 
-<div class="kicker">Rule #1</div>
+<div class="kicker">The Detective · under the hood</div>
 
-# No receipt, <span class="tram">no pin.</span>
+# It never sees the photo. <span class="tram">It checks the map.</span>
 
-<div class="flex items-center justify-center gap-16 mt-12">
-  <div class="bigpin">📍</div>
-  <div v-click class="receipt">
-    <div class="r-head">RECEIPT</div>
-    <div class="r-row"><span>source</span><b>OpenStreetMap</b></div>
-    <div class="r-row"><span>call_id</span><b>geo:7f3a9c</b></div>
-    <div class="r-row"><span>status</span><b class="tram">verified ✓</b></div>
-  </div>
-</div>
-
-<p v-click class="catch text-2xl mt-12 text-center">The model reasons. The map answers.</p>
+<DetectiveDesk :step="$clicks" class="mt-6" />
 
 <!--
-LLMs love to invent coordinates. Ours can't: a pin only exists if a real lookup produced it.
+The Detective never sees the photo. It only gets clues — and it checks every one. A street sign becomes a Nominatim search, "a castle on a hill" becomes every castle in the region from OpenStreetMap, and the sun flags places where it couldn't be. Every pin we submit traces back to its source.
 -->
 
 ---
