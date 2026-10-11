@@ -39,6 +39,7 @@ components/
   PanoStrip.vue          ← endlessly panning 360° panorama (inline strip or full-bleed background)
   BigNumber.vue          ← count-up KPI, accepts "??" as placeholder
   DistanceStrip.vue      ← log-scale dot strip of every panorama's error, reads data/batch1.json (2 clicks)
+data/batch1.json         ← batch-1 results (per-panorama error in metres, from the organisers); DistanceStrip.vue and the miss slides read it, edit here, not in the slide
 public/panos/*.jpg       ← the panoramas (2000×1000)
 styles/index.css         ← colours + reusable classes (.kicker .catch .pill .hero …)
 vite.config.ts           ← build workaround, see "Known issue"

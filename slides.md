@@ -264,8 +264,18 @@ In all three cases a panorama taken minutes before or after was solved within me
   </svg>
 </div>
 
+<div class="flex flex-wrap justify-center gap-3 mt-10">
+  <span v-click class="pill">🏰 A castle is a class, not a place</span>
+  <span v-click class="pill">🏢 Institutions have more than one address</span>
+  <span v-click class="pill">📍 Urban needs a street, not a region</span>
+</div>
+
 <!--
-No ground truth? We review runs ourselves. The Professor turns them into general rules ("red CTT mailbox ⇒ Portugal"), never "panorama X was in Y". Frozen before the scored run.
+No ground truth? We review runs ourselves. The Professor turns the misses into general rules, e.g. from batch 1:
+- A castle is a class, not a place.
+- Institutions have more than one address.
+- Urban needs a street, not a region.
+Rules are general by design — the Professor never writes "panorama X was in Y". Knowledge was frozen before the scored run.
 -->
 
 ---
