@@ -1,0 +1,25 @@
+{
+  "source": "Albatroz (organisers) — geodesic distance of our top pin to the true location, batch 1",
+  "panoramas": [
+    {"id":"059","label":"urban","err_m":32174},
+    {"id":"095","label":"urban","err_m":147038},
+    {"id":"141","label":"urban","err_m":7231},
+    {"id":"170","label":"urban","err_m":0,"quote":"Right on the spot!"},
+    {"id":"209","label":"urban","err_m":43},
+    {"id":"319","label":"urban","err_m":16},
+    {"id":"611","label":"urban","err_m":27},
+    {"id":"179","label":"urban","err_m":30579},
+    {"id":"194","label":"urban","err_m":694},
+    {"id":"218","label":"urban","err_m":43},
+    {"id":"220","label":"urban","err_m":43},
+    {"id":"064","label":"urban","err_m":16},
+    {"id":"066","label":"urban","err_m":16},
+    {"id":"681","label":"urban","err_m":40},
+    {"id":"683","label":"urban","err_m":0,"quote":"Right on the spot!"},
+    {"id":"685","label":"urban","err_m":82159},
+    {"id":"695","label":"urban","err_m":20},
+    {"id":"749","label":"non_urban","err_m":79129},
+    {"id":"754","label":"non_urban","err_m":64},
+    {"id":"779","label":"non_urban","err_m":54}
+  ]
+}

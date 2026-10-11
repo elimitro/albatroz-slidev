@@ -33,11 +33,12 @@ npm run dev          # opens http://localhost:3030
 ## 2 · What's where
 
 ```
-slides.md                ← the whole deck (11 slides, ~5 words per slide)
+slides.md                ← the whole deck (12 slides, ~5 words per slide)
 components/
   CrewStory.vue          ← the architecture as an animated short film (10 clicks)
   PanoStrip.vue          ← endlessly panning 360° panorama (inline strip or full-bleed background)
   BigNumber.vue          ← count-up KPI, accepts "??" as placeholder
+  DistanceStrip.vue      ← log-scale dot strip of every panorama's error, reads data/batch1.json (2 clicks)
 public/panos/*.jpg       ← the panoramas (2000×1000)
 styles/index.css         ← colours + reusable classes (.kicker .catch .pill .hero …)
 vite.config.ts           ← build workaround, see "Known issue"
@@ -83,7 +84,7 @@ Speaker notes: the LAST comment of a slide. Only visible in presenter mode.
 grep -n "TODO" slides.md
 ```
 
-- **Results slide:** replace `value="??"` with real numbers, e.g. `<BigNumber :value="90" suffix="%" label="right country" />`
+- **Results slide:** numbers are computed from `data/batch1.json` (median, under 100 m, exact). "Right country 20/20" is hardcoded; baseline score and time per panorama are still missing
 - **Boss level slide:** decide how you reveal A vs B
 - The log lines in the film are illustrative — swap in real ones from `runs/<id>/log.json` if you like
 
@@ -102,7 +103,7 @@ Host `dist/` anywhere static (Netlify, Vercel, GitHub Pages, your own server).
 For a sub-folder on your own site:
 
 ```bash
-npx slidev build --base /dateien/junctionx/
+npx slidev build --base /junctionx/
 ```
 
 The PDF is a backup only — **present from the browser**, otherwise CrewMap and ScoreLab lose their interactivity.

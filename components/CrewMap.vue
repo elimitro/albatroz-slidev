@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * CrewMap — interactive architecture of the Navegador crew.
+ * CrewMap — interactive architecture of the NAVEGADOR crew.
  *
  * Two ways to drive it during the pitch:
  *  1. Arrow keys / clicker: bind `:step="$clicks"` and set `clicks: 8` in the slide
@@ -26,44 +26,44 @@ const NODES: Node[] = [
   { id: 'pano', x: 62, y: 210, kind: 'io', name: '360° Panorama', aka: '6080×3040 · timestamp · label',
     line: 'One sphere of pixels. No street names. No metadata.',
     input: 'equirectangular JPG + YYYYMMDDhhmmss + urban / non_urban', output: 'the job' },
-  { id: 'lupa', x: 186, y: 210, kind: 'tool', name: 'Magnifier', aka: 'Lupa',
+  { id: 'lens', x: 186, y: 210, kind: 'tool', name: 'Lens', aka: 'The Magnifier',
     line: 'Unwraps the world into 13 undistorted views — and zooms to 8° on demand.',
     input: 'panorama', output: '8 horizon + 4 ground views + overview, zoom crops' },
-  { id: 'astro', x: 186, y: 345, kind: 'tool', name: 'Astrolabe', aka: 'Astrolábio',
+  { id: 'astro', x: 186, y: 345, kind: 'tool', name: 'Astrolabe', aka: 'Sun & north',
     line: 'Finds the sun. Knows where north is. Checks local AND UTC time.',
     input: 'panorama + timestamp + candidate (lat, lng)', output: 'sun elevation residual, north offset' },
-  { id: 'reader', x: 318, y: 118, kind: 'agent', name: 'Reader', aka: 'Leitor',
+  { id: 'reader', x: 318, y: 118, kind: 'agent', name: 'Reader', aka: 'Signs & text',
     line: 'Reads every sign, shop, phone prefix and plate format. Two passes, with zoom.',
     input: '8 views (+ the crops it asked for)', output: 'texts, language verdict, search terms' },
-  { id: 'geo', x: 318, y: 302, kind: 'agent', name: 'Geographer', aka: 'Geógrafo',
+  { id: 'geo', x: 318, y: 302, kind: 'agent', name: 'Geographer', aka: 'Land & architecture',
     line: 'Vegetation, soil, roofs, poles, chimneys. Absence of a clue is also a clue.',
     input: '8 views + regional_cues.md checklist', output: 'country & region probabilities' },
-  { id: 'detective', x: 450, y: 210, kind: 'agent', name: 'Detective', aka: 'Detetive',
+  { id: 'detective', x: 450, y: 210, kind: 'agent', name: 'Detective', aka: 'Clues to pins',
     line: 'Turns clues into coordinates. Every pin comes with a receipt.',
     input: 'Reader + Geographer + sun + human answers', output: 'weighted hypotheses with provenance ids' },
   { id: 'tools', x: 450, y: 352, kind: 'tool', name: 'Geo toolbelt', aka: 'Nominatim · Overpass · Wikipedia',
     line: 'Real-world lookups, cached and rate-limited. The model never invents a coordinate.',
     input: 'place names, POI tags, bounding boxes', output: 'coordinates + call_id' },
-  { id: 'advocate', x: 450, y: 62, kind: 'agent', name: 'Advocate', aka: 'Advogado', badge: 'night shift',
+  { id: 'advocate', x: 450, y: 62, kind: 'agent', name: 'Advocate', aka: 'Devil’s advocate', badge: 'night shift',
     line: 'The devil’s advocate. Hunts contradictions in the top 3 hypotheses.',
     input: 'top hypotheses + evidence', output: 'objections, weight multipliers' },
-  { id: 'nav', x: 580, y: 210, kind: 'agent', name: 'Navigator', aka: 'Navegador',
+  { id: 'nav', x: 580, y: 210, kind: 'agent', name: 'Navigator', aka: 'The Captain',
     line: 'The captain. Clusters hypotheses and asks a human only when the math says it pays.',
     input: 'all hypotheses', output: 'SUBMIT or a ≤4-option question' },
   { id: 'human', x: 580, y: 352, kind: 'human', name: 'Human click', aka: 'MCQ ×0.95',
     line: 'Buttons only. No free text. Every click is priced in.',
     input: 'agent-generated question', output: 'one option id' },
-  { id: 'strat', x: 700, y: 150, kind: 'tool', name: 'Strategist', aka: 'Estratega',
+  { id: 'strat', x: 700, y: 150, kind: 'tool', name: 'Strategist', aka: 'Max expected score',
     line: 'Monte-Carlo over the hypotheses, picks the max-expected-score point, fills 10 ranks.',
     input: 'hypotheses + penalty ledger', output: '10 × (lat, lng) + expected score' },
-  { id: 'scribe', x: 700, y: 290, kind: 'tool', name: 'Scribe', aka: 'Escrivão',
+  { id: 'scribe', x: 700, y: 290, kind: 'tool', name: 'Scribe', aka: 'The record',
     line: 'Every prompt, tool call and click — on the record, human-readable.',
     input: 'every event', output: 'log.json + report.md' },
 ]
 
 const EDGES: [string, string][] = [
-  ['pano', 'lupa'], ['pano', 'astro'],
-  ['lupa', 'reader'], ['lupa', 'geo'],
+  ['pano', 'lens'], ['pano', 'astro'],
+  ['lens', 'reader'], ['lens', 'geo'],
   ['reader', 'detective'], ['geo', 'detective'], ['astro', 'detective'],
   ['detective', 'tools'], ['detective', 'advocate'], ['advocate', 'nav'],
   ['detective', 'nav'], ['nav', 'human'],
@@ -77,13 +77,13 @@ const PHASES = [
     nodes: NODES.map(n => n.id) },
   { tag: 'S0–S1 · See', title: 'Unwrap the world',
     text: 'The sphere becomes 13 flat views a model can actually read.',
-    nodes: ['pano', 'lupa'] },
+    nodes: ['pano', 'lens'] },
   { tag: 'S2 · Sun', title: 'The sky is a compass',
     text: 'Sun position + timestamp = where north is, and which places are physically possible.',
     nodes: ['pano', 'astro'] },
   { tag: 'S3 · Perceive', title: 'Two experts, in parallel',
     text: 'The Reader reads, the Geographer looks. Observation strictly separated from conclusion.',
-    nodes: ['lupa', 'reader', 'geo'] },
+    nodes: ['lens', 'reader', 'geo'] },
   { tag: 'S4 · Investigate', title: 'Clues → coordinates',
     text: 'The Detective runs a tool loop. No receipt (call_id), no pin.',
     nodes: ['reader', 'geo', 'astro', 'detective', 'tools'] },
@@ -127,7 +127,7 @@ const KIND_LABEL: Record<Kind, string> = { io: 'input', tool: 'tool', agent: 'ag
 <template>
   <div class="crew">
     <!-- ======== the map ======== -->
-    <svg viewBox="0 0 760 420" class="map" role="img" aria-label="Navegador architecture">
+    <svg viewBox="0 0 760 420" class="map" role="img" aria-label="Crew architecture">
       <!-- edges first so nodes paint on top -->
       <g v-for="[a, b] in EDGES" :key="a + b">
         <line :x1="byId[a].x" :y1="byId[a].y" :x2="byId[b].x" :y2="byId[b].y"

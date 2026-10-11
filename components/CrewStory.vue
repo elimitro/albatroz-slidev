@@ -16,20 +16,20 @@ import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{ step?: number }>()
 const BASE = import.meta.env.BASE_URL
-const PANO = `${BASE}panos/lisbon-azulejo.jpg`
+const PANO = `${BASE}panos/lisbon-marvila.jpg`
 
 type Kind = 'agent' | 'tool' | 'story'
 const SCENES: { emoji: string; name: string; role: string; line: string; kind: Kind }[] = [
   { emoji: '🎬', name: 'One panorama', role: '360° · one timestamp', line: 'Nine specialists. One pin.', kind: 'story' },
-  { emoji: '🔍', name: 'Lupa', role: 'The Magnifier', line: 'One sphere. Thirteen views.', kind: 'tool' },
-  { emoji: '☀️', name: 'Astrolábio', role: 'The Astrolabe', line: 'Sun + clock = north.', kind: 'tool' },
-  { emoji: '📖', name: 'Leitor', role: 'The Reader', line: 'Every sign is a clue.', kind: 'agent' },
-  { emoji: '🌿', name: 'Geógrafo', role: 'The Geographer', line: 'Tiles and stones speak, too.', kind: 'agent' },
-  { emoji: '🕵️', name: 'Detetive', role: 'The Detective', line: 'No receipt, no pin.', kind: 'agent' },
-  { emoji: '⚖️', name: 'Advogado', role: "The Devil's Advocate", line: 'Attacks the favourite.', kind: 'agent' },
-  { emoji: '🧭', name: 'Navegador', role: 'The Captain', line: 'Asks only when it pays.', kind: 'agent' },
-  { emoji: '♟️', name: 'Estratega', role: 'The Strategist', line: 'Ten pins. One spot.', kind: 'tool' },
-  { emoji: '✍️', name: 'Escrivão', role: 'The Scribe', line: 'Every thought on the record.', kind: 'tool' },
+  { emoji: '🔍', name: 'Lens', role: 'The Magnifier', line: 'One sphere. Thirteen views.', kind: 'tool' },
+  { emoji: '☀️', name: 'Astrolabe', role: 'The Astrolabe', line: 'The sun hides. Its shadows don’t.', kind: 'tool' },
+  { emoji: '📖', name: 'Reader', role: 'The Reader', line: 'Every sign is a clue.', kind: 'agent' },
+  { emoji: '🌿', name: 'Geographer', role: 'The Geographer', line: 'Stones and façades speak, too.', kind: 'agent' },
+  { emoji: '🕵️', name: 'Detective', role: 'The Detective', line: 'No receipt, no pin.', kind: 'agent' },
+  { emoji: '⚖️', name: 'Advocate', role: "The Devil's Advocate", line: 'Attacks the favourite.', kind: 'agent' },
+  { emoji: '🧭', name: 'Navigator', role: 'The Captain', line: 'Asks only when it pays.', kind: 'agent' },
+  { emoji: '♟️', name: 'Strategist', role: 'The Strategist', line: 'Ten pins. One spot.', kind: 'tool' },
+  { emoji: '✍️', name: 'Scribe', role: 'The Scribe', line: 'Every thought on the record.', kind: 'tool' },
   { emoji: '🗺️', name: 'The crew', role: 'end to end', line: 'Panorama in. Ten pins out.', kind: 'story' },
 ]
 const LAST = SCENES.length - 1
@@ -42,16 +42,13 @@ const scene = computed(() => SCENES[s.value])
 
 // ---- overlay data (percent of panorama) -----------------------------------
 const READER = [
-  { l: 39.5, t: 40, w: 5, h: 4.5, label: 'CAL', pos: 'above' },
-  { l: 63, t: 29, w: 14.5, h: 10.5, label: "gestão · investimento", pos: 'below' },
-  { l: 79.5, t: 28.5, w: 7.8, h: 5, label: 'SALVARIA', pos: 'above' },
-  { l: 89, t: 68, w: 4.5, h: 3.5, label: 'EU plate', pos: 'above-r' },
+  { l: 16, t: 33, w: 8, h: 8, label: 'ABEL PEREIRA DA FONSECA', pos: 'above' },
+  { l: 15.9, t: 53.3, w: 2.2, h: 3.2, label: 'PORTO DE LISBOA', pos: 'above' },
 ]
 const GEO = [
-  { l: 17, t: 33, w: 13, h: 22, label: 'azulejo façade', pos: 'above' },
-  { l: 28.5, t: 63, w: 8, h: 7, label: 'calçada', pos: 'below' },
-  { l: 72, t: 17, w: 8, h: 6, label: 'iron balconies', pos: 'above' },
-  { l: 44, t: 81, w: 11, h: 7, label: 'stone setts', pos: 'above' },
+  { l: 35, t: 58, w: 23, h: 19, label: 'mosaic pavement', pos: 'below' },
+  { l: 67.5, t: 19.5, w: 16.5, h: 39, label: 'Art Nouveau façade', pos: 'above' },
+  { l: 70.5, t: 62, w: 17.5, h: 28, label: 'tram rails', pos: 'below' },
 ]
 
 // ---- map: simplified mainland Portugal, (lng, lat) → svg units -------------
@@ -66,27 +63,29 @@ const OX = 215, OY = 20 // where the map sits inside the 600×300 stage
 const px = (lng: number) => OX + (lng + 9.6) * 50
 const py = (lat: number) => OY + (42.2 - lat) * 50
 const ptPath = 'M' + PT.map(([g, a]) => `${px(g).toFixed(1)},${py(a).toFixed(1)}`).join(' L') + ' Z'
-const LIS = { x: px(-9.14), y: py(38.72) }
+const LIS = { x: px(-9.1022), y: py(38.7424) } // Marvila, Lisbon
 const OPO = { x: px(-8.61), y: py(41.15) }
 const PIN = 'M0 0 C -5 -9 -9 -13 -9 -19 A9 9 0 1 1 9 -19 C9 -13 5 -9 0 0 Z'
-const CLUES = ['📖  “gestão” → Portuguese', '🌿  azulejo + calçada', '☀️  north offset ✓']
+const CLUES = ['📖  Portuguese signage', '🌿  mosaic + Art Nouveau', '☀️  shadow bearing ✓']
 
 // ---- overview graph ---------------------------------------------------------
 const FLOW = [
-  { e: '🔍', n: 'Lupa', x: 45, y: 150 }, { e: '☀️', n: 'Astrolábio', x: 115, y: 150 },
-  { e: '📖', n: 'Leitor', x: 190, y: 100 }, { e: '🌿', n: 'Geógrafo', x: 190, y: 200 },
-  { e: '🕵️', n: 'Detetive', x: 265, y: 150 }, { e: '⚖️', n: 'Advogado', x: 335, y: 150 },
-  { e: '🧭', n: 'Navegador', x: 405, y: 150 }, { e: '♟️', n: 'Estratega', x: 475, y: 150 },
-  { e: '✍️', n: 'Escrivão', x: 545, y: 150 },
+  { e: '🔍', n: 'Lens', x: 45, y: 150 }, { e: '☀️', n: 'Astrolabe', x: 115, y: 150 },
+  { e: '📖', n: 'Reader', x: 190, y: 100 }, { e: '🌿', n: 'Geographer', x: 190, y: 200 },
+  { e: '🕵️', n: 'Detective', x: 265, y: 150 }, { e: '⚖️', n: 'Advocate', x: 335, y: 150 },
+  { e: '🧭', n: 'Navigator', x: 405, y: 150 }, { e: '♟️', n: 'Strategist', x: 475, y: 150 },
+  { e: '✍️', n: 'Scribe', x: 545, y: 150 },
 ]
 const FLOW_EDGES = [[0, 1], [1, 2], [1, 3], [2, 4], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8]]
 
 const LOG = [
-  ['+00:04', 'lupa', '13 views cut'],
-  ['+00:31', 'leitor', '“gestão” → pt (0.9)'],
-  ['+01:12', 'detetive', 'pin filed · receipt geo:7f3a9c'],
+  ['+00:04', 'lens', '13 views cut'],
+  ['+00:31', 'reader', 'read “ABEL PEREIRA DA FONSECA”'],
+  ['+00:52', 'geographer', 'mosaic pavement + Art Nouveau'],
+  ['+01:12', 'detective', 'Marvila, Lisbon · receipt geo:7f3a9c'],
   ['+01:40', 'human', 'MCQ → A (×0.95)'],
-  ['+02:05', 'estratega', '10 pins committed'],
+  ['+02:05', 'strategist', '10 pins committed'],
+  ['+02:31', 'scribe', 'verified by organisers: 43 m'],
 ]
 
 const dimPano = computed(() => s.value === 1 || s.value >= 5)
@@ -106,7 +105,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
       <div class="stage">
         <img :src="PANO" class="pano" :class="{ dim: dimPano, map: s >= 5 }" alt="" />
 
-        <!-- 1 · Lupa: the sphere unfolds into views -->
+        <!-- 1 · Lens: the sphere unfolds into views -->
         <div class="layer" :class="{ on: s === 1 }">
           <div v-for="i in 8" :key="i" class="tile"
                :style="{ '--i': i - 1, '--gl': `${4 + ((i - 1) % 4) * 23.4}%`, '--gt': `${8 + Math.floor((i - 1) / 4) * 46}%`,
@@ -115,23 +114,27 @@ const pad = (n: number) => String(n).padStart(2, '0')
           </div>
         </div>
 
-        <!-- 2 · Astrolábio: sun path + north -->
+        <!-- 2 · Astrolabe: hard shadows point back to the hidden sun, then north -->
         <svg class="layer" :class="{ on: s === 2 }" viewBox="0 0 200 100">
-          <path d="M 18 46 Q 100 -6 182 46" pathLength="1" class="arc" />
-          <g class="sun"><circle cx="100" cy="20" r="9" class="glow" /><circle cx="100" cy="20" r="4.5" class="core" /></g>
-          <line x1="58" y1="14" x2="58" y2="92" class="north" />
-          <g class="nlabel"><polygon points="58,6 62,13 54,13" /><text x="58" y="20">N</text></g>
+          <rect x="60" y="62" width="96" height="30" rx="3" class="shade" />
+          <g class="slabel"><rect x="60" y="55.5" width="27" height="6" rx="1.5" /><text x="62" y="59.8">hard shadows</text></g>
+          <path d="M 106 70 C 100 50 78 36 60 19" pathLength="1" class="arc-bg" />
+          <path d="M 106 70 C 100 50 78 36 60 19" pathLength="1" class="arc" />
+          <polygon points="0,0 -4.4,-2.4 -4.4,2.4" transform="translate(60 19) rotate(-137)" class="ahead" />
+          <g class="sun"><circle cx="58.5" cy="12.5" r="9" class="glow" /><circle cx="58.5" cy="12.5" r="3.6" class="core" /></g>
+          <line x1="124" y1="29" x2="124" y2="60" class="north" />
+          <g class="nlabel"><circle cx="124" cy="23" r="6" /><text x="124" y="25.2">N</text></g>
           <g transform="translate(182 82)"><circle r="11" class="dial" /><g class="needle"><polygon points="0,-9 2.5,0 0,2 -2.5,0" /></g></g>
         </svg>
 
-        <!-- 3 · Leitor: text boxes -->
+        <!-- 3 · Reader: text boxes -->
         <div class="layer" :class="{ on: s === 3 }">
           <div v-for="(b, i) in READER" :key="b.label" class="box reader" :style="{ left: b.l + '%', top: b.t + '%', width: b.w + '%', height: b.h + '%', '--d': i }">
             <span class="lbl" :class="b.pos">{{ b.label }}</span>
           </div>
         </div>
 
-        <!-- 4 · Geógrafo: landscape & architecture -->
+        <!-- 4 · Geographer: landscape & architecture -->
         <div class="layer" :class="{ on: s === 4 }">
           <div v-for="(b, i) in GEO" :key="b.label" class="box geo" :style="{ left: b.l + '%', top: b.t + '%', width: b.w + '%', height: b.h + '%', '--d': i }">
             <span class="lbl" :class="b.pos">{{ b.label }}</span>
@@ -142,7 +145,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
         <svg class="layer mapl" :class="{ on: s >= 5 && s <= 8 }" viewBox="0 0 600 300">
           <path :d="ptPath" class="land" />
 
-          <!-- 5 Detetive: clues fly in, pin drops, receipt -->
+          <!-- 5 Detective: clues fly in, pin drops, receipt -->
           <g :class="['clues', { on: s === 5 }]">
             <g v-for="(c, i) in CLUES" :key="i" class="clue" :style="{ '--d': i }">
               <rect x="16" :y="72 + i * 44" width="186" height="30" rx="15" />
@@ -159,7 +162,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
             <text :x="LIS.x + 36" :y="LIS.y + 12">🧾 receipt · geo:7f3a9c ✓</text>
           </g>
 
-          <!-- 6 Advogado: a rival appears -->
+          <!-- 6 Advocate: a rival appears -->
           <g :transform="`translate(${OPO.x} ${OPO.y})`">
             <g class="drop rival" :class="{ on: s === 6 || s === 7, gone: s === 7 }" :style="{ '--d': 1 }"><path :d="PIN" class="pin2" /><circle cy="-19" r="3.5" class="hole" /></g>
           </g>
@@ -172,7 +175,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
             <text :x="LIS.x + 26" :y="LIS.y + 4" class="pct">55%</text>
           </g>
 
-          <!-- 7 Navegador: one smart question -->
+          <!-- 7 Navigator: one smart question -->
           <g class="tag mcq" :class="{ on: s === 7 }" style="--d: 1">
             <rect x="398" y="92" width="184" height="124" rx="12" class="card" />
             <text x="414" y="116" class="q">Which zone fits?</text>
@@ -183,7 +186,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
             <text x="426" y="188">B · Douro valley</text>
           </g>
 
-          <!-- 8 Estratega: ten pins, one spot -->
+          <!-- 8 Strategist: ten pins, one spot -->
           <g :transform="`translate(${LIS.x} ${LIS.y})`">
             <g v-for="i in 10" :key="i" class="drop stack" :class="{ on: s === 8 }" :style="{ '--d': i * 0.6 }">
               <g :transform="`translate(${(i - 1) * 1.2 - 5} ${-(i - 1) * 3.5})`"><path :d="PIN" class="pin" /></g>
@@ -195,13 +198,13 @@ const pad = (n: number) => String(n).padStart(2, '0')
           </g>
         </svg>
 
-        <!-- 9 · Escrivão: the log writes itself -->
+        <!-- 9 · Scribe: the log writes itself -->
         <div class="layer logl" :class="{ on: s === 9 }">
           <div class="term">
             <div v-for="(r, i) in LOG" :key="i" class="row" :style="{ '--d': i }">
               <span class="t">{{ r[0] }}</span><span class="a">{{ r[1] }}</span><span>{{ r[2] }}</span>
             </div>
-            <div class="row cursor" style="--d: 5">▍</div>
+            <div class="row cursor" :style="{ '--d': LOG.length }">▍</div>
           </div>
         </div>
 
@@ -256,7 +259,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
 .layer { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; transition: opacity .6s var(--ease); }
 .layer.on { opacity: 1; }
 
-/* Lupa tiles: start as the 8 vertical slices of the sphere, glide into a 4×2 grid */
+/* Lens tiles: start as the 8 vertical slices of the sphere, glide into a 4×2 grid */
 .tile { position: absolute; top: 0; height: 100%; width: 12.5%; left: calc(var(--i) * 12.5%); opacity: 0;
   background-size: 800% 420%; border-radius: 10px; box-shadow: 0 0 0 1.5px var(--nav-azulejo);
   transition: all .9s var(--ease); transition-delay: calc(var(--i) * 90ms); }
@@ -265,21 +268,31 @@ const pad = (n: number) => String(n).padStart(2, '0')
 .tile span { position: absolute; left: 6px; bottom: 5px; font: 600 9px var(--slidev-code-font-family, monospace); color: var(--nav-cream);
   background: rgba(7,17,27,.75); padding: 1px 5px; border-radius: 4px; }
 
-/* Astrolábio */
-.arc { fill: none; stroke: var(--nav-tram); stroke-width: .8; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s var(--ease) .2s; }
-.on .arc { stroke-dashoffset: 0; }
-.sun { opacity: 0; transform: scale(.3); transform-box: fill-box; transform-origin: center; transition: all .8s var(--ease) 1.2s; }
+/* Astrolabe */
+.shade { fill: rgba(246,196,67,.12); stroke: var(--nav-tram); stroke-width: .5; stroke-dasharray: 2 1.5; opacity: 0; transition: opacity .6s var(--ease) .2s; }
+.slabel { opacity: 0; transition: opacity .5s var(--ease) .5s; }
+.slabel rect { fill: var(--nav-tram); }
+.slabel text { fill: var(--nav-night); font: 700 3.4px var(--slidev-font-family, sans-serif); }
+.on .shade, .on .slabel { opacity: 1; }
+.arc, .arc-bg { fill: none; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s var(--ease) .9s; }
+.arc { stroke: var(--nav-tram); stroke-width: 1.3; }
+.arc-bg { stroke: rgba(7,17,27,.8); stroke-width: 2.8; }
+.on .arc, .on .arc-bg { stroke-dashoffset: 0; }
+.ahead { fill: var(--nav-tram); stroke: var(--nav-night); stroke-width: .5; opacity: 0; transition: opacity .3s 2.2s; }
+.on .ahead { opacity: 1; }
+.sun { opacity: 0; transform: scale(.3); transform-box: fill-box; transform-origin: center; transition: all .8s var(--ease) 2.2s; }
 .on .sun { opacity: 1; transform: scale(1); }
-.glow { fill: var(--nav-tram); opacity: .25; } .core { fill: var(--nav-tram); }
-.north { stroke: var(--nav-azulejo-soft); stroke-width: .6; stroke-dasharray: 2 2; opacity: 0; transition: opacity .6s 1.8s; }
-.nlabel { fill: var(--nav-azulejo-soft); opacity: 0; transition: opacity .6s 1.9s; }
-.nlabel text { font: 700 6px var(--slidev-code-font-family, monospace); text-anchor: middle; }
+.glow { fill: var(--nav-tram); opacity: .4; } .core { fill: var(--nav-tram); stroke: var(--nav-night); stroke-width: .6; }
+.north { stroke: var(--nav-cream); stroke-width: .7; stroke-dasharray: 2 2; opacity: 0; filter: drop-shadow(0 0 .6px rgba(7,17,27,.95)); transition: opacity .6s 3s; }
+.nlabel { opacity: 0; transition: opacity .6s 3.1s; }
+.nlabel circle { fill: rgba(7,17,27,.85); stroke: var(--nav-azulejo-soft); stroke-width: .6; }
+.nlabel text { fill: var(--nav-cream); font: 700 6px var(--slidev-code-font-family, monospace); text-anchor: middle; }
 .on .north, .on .nlabel { opacity: 1; }
 .dial { fill: rgba(7,17,27,.7); stroke: var(--nav-line); stroke-width: .6; }
-.needle { fill: var(--nav-tram); transform: rotate(150deg); transition: transform 1.8s var(--ease) 1.6s; }
+.needle { fill: var(--nav-tram); transform: rotate(150deg); transition: transform 1.8s var(--ease) 3s; }
 .on .needle { transform: rotate(-38deg); }
 
-/* Leitor + Geógrafo boxes */
+/* Reader + Geographer boxes */
 .box { position: absolute; border-radius: 4px; opacity: 0; transform: scale(1.4);
   transition: all .55s var(--ease); transition-delay: calc(.25s + var(--d) * .35s); }
 .layer.on .box { opacity: 1; transform: scale(1); }
@@ -331,7 +344,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
   font: 12px/1.9 var(--slidev-code-font-family, monospace); color: var(--nav-cream); }
 .row { opacity: 0; transform: translateY(6px); transition: all .4s var(--ease); transition-delay: calc(.3s + var(--d) * .45s); display: flex; gap: 14px; }
 .logl.on .row { opacity: 1; transform: none; }
-.row .t { color: var(--nav-muted); } .row .a { color: var(--nav-tram); width: 74px; }
+.row .t { color: var(--nav-muted); } .row .a { color: var(--nav-tram); width: 86px; flex: none; white-space: nowrap; }
 .cursor { color: var(--nav-tram); animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 

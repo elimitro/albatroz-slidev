@@ -118,7 +118,7 @@
 .solo { font-size: 110px; line-height: 1; position: relative; display: inline-block; }
 .scribble { position: absolute; top: -18px; right: -46px; font-family: 'Fraunces', serif; font-style: italic; font-size: 34px; color: var(--nav-terracotta); transform: rotate(12deg); }
 .crew-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 18px; }
-.crew-grid > div { display: flex; align-items: center; gap: .7rem; font-weight: 600; font-size: 1rem; }
+.crew-grid > div { display: flex; align-items: center; gap: .7rem; font-weight: 600; font-size: 1rem; white-space: nowrap; }
 .crew-grid span { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 22px;
   background: var(--nav-deep); box-shadow: 0 0 0 2px var(--nav-tram); flex: none; }
 

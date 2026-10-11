@@ -90,16 +90,16 @@ Briefing theme: far-apart places that look alike.
   </div>
   <div v-click class="col-span-3">
     <div class="crew-grid">
-      <div><span>🔍</span>Lupa</div><div><span>☀️</span>Astrolábio</div><div><span>📖</span>Leitor</div>
-      <div><span>🌿</span>Geógrafo</div><div><span>🕵️</span>Detetive</div><div><span>⚖️</span>Advogado</div>
-      <div><span>🧭</span>Navegador</div><div><span>♟️</span>Estratega</div><div><span>✍️</span>Escrivão</div>
+      <div><span>🔍</span>Lens</div><div><span>☀️</span>Astrolabe</div><div><span>📖</span>Reader</div>
+      <div><span>🌿</span>Geographer</div><div><span>🕵️</span>Detective</div><div><span>⚖️</span>Advocate</div>
+      <div><span>🧭</span>Navigator</div><div><span>♟️</span>Strategist</div><div><span>✍️</span>Scribe</div>
     </div>
   </div>
 </div>
 
 <!--
 Same lesson as our summer project: one chatbot is smart but chaotic — a crew with roles is reliable.
-"And yes, they all have Portuguese names."
+"Nine specialists, one job each — like a real investigation team."
 -->
 
 ---
@@ -111,7 +111,7 @@ transition: slide-left
 
 <!--
 Clicker drives the film: one click = one crew member.
-0 intro · 1 Lupa · 2 Astrolábio · 3 Leitor · 4 Geógrafo · 5 Detetive · 6 Advogado · 7 Navegador · 8 Estratega · 9 Escrivão · 10 overview.
+0 intro · 1 Lens · 2 Astrolabe · 3 Reader · 4 Geographer · 5 Detective · 6 Advocate · 7 Navigator · 8 Strategist · 9 Scribe · 10 overview.
 One sentence per agent, let the animation do the talking.
 -->
 
@@ -169,23 +169,82 @@ The agent writes the question, we only click. Penalties only hit pins committed 
 ---
 layout: center
 class: text-center
+clicks: 2
 ---
 
-<div class="kicker">Results</div>
+<script setup>
+import batch from './data/batch1.json'
 
-# Crew <span class="tram">vs.</span> single model
+const errs = batch.panoramas.map(p => p.err_m).sort((a, b) => a - b)
+const n = errs.length
+const mid = Math.floor(n / 2)
+const median = n % 2 ? errs[mid] : (errs[mid - 1] + errs[mid]) / 2
+const under100 = errs.filter(e => e < 100).length
+const exact = errs.filter(e => e === 0).length
+</script>
 
-<div class="grid grid-cols-4 gap-10 mt-14">
-  <BigNumber value="??" label="score vs. baseline" />
-  <BigNumber value="??" label="right country" />
-  <BigNumber value="??" label="median distance" />
-  <BigNumber value="??" label="per panorama" />
+<div class="kicker">Results · verified by Albatroz</div>
+
+# {{ median }} metres. <span class="tram">Median.</span>
+
+<div class="grid grid-cols-4 gap-10 mt-10">
+  <BigNumber :value="median" suffix=" m" label="median distance" />
+  <BigNumber :value="under100" :suffix="`/${n}`" label="under 100 m" />
+  <BigNumber :value="exact" label="dead on" />
+  <BigNumber :value="20" suffix="/20" label="right country" />
 </div>
 
+<DistanceStrip :step="$clicks" class="mt-8" />
+
+<p class="muted text-sm mt-4">Batch 1 · {{ n }} panoramas · distances measured by the organisers</p>
+
 <!--
-TODO: real numbers from eval/compare.py, e.g.
-  <BigNumber :value="2.4" :decimals="1" suffix="×" label="score vs. baseline" />
-  <BigNumber :value="90" suffix="%" label="right country" />
+These aren't our numbers — the organisers measured them.
+Two panoramas got the organisers' verdict "Right on the spot!" (170 and 683, both under 10 m).
+Everything on this slide is computed from data/batch1.json; edit the JSON, not the slide.
+"Right country 20/20" is hardcoded: inferred — no miss is large enough to cross a border.
+Click 1: the 20 dots drop in. Click 2: the yellow bracket marks the 13 under 100 m.
+Look left: most pins land in the yellow. Look right: six misses over 1 km — the next slide shows three of them.
+TODO (not on the slide yet): score vs. baseline and time per panorama, from eval/compare.py.
+-->
+
+---
+
+<script setup>
+import batch from './data/batch1.json'
+const km = id => Math.round(batch.panoramas.find(p => p.id === id).err_m / 1000)
+</script>
+
+<div class="kicker">Honest misses</div>
+
+# The answer was <span class="tram">one panorama away.</span>
+
+<div class="grid grid-cols-3 gap-6 mt-8">
+  <div v-click class="card">
+    <PanoStrip src="/panos/miss-castle.jpg" :height="150" :seconds="100" />
+    <div class="mt-3 text-base font-semibold">A castle is a class.</div>
+    <div class="terracotta text-5xl font-bold tabular-nums mt-1">{{ km('685') }} km</div>
+  </div>
+  <div v-click class="card">
+    <PanoStrip src="/panos/miss-estuary.jpg" :height="150" :seconds="120" reverse />
+    <div class="mt-3 text-base font-semibold">Estuary ≠ estuary.</div>
+    <div class="terracotta text-5xl font-bold tabular-nums mt-1">{{ km('179') }} km</div>
+  </div>
+  <div v-click class="card">
+    <PanoStrip src="/panos/miss-twoaddresses.jpg" :height="150" :seconds="110" />
+    <div class="mt-3 text-base font-semibold">One name, two addresses.</div>
+    <div class="terracotta text-5xl font-bold tabular-nums mt-1">{{ km('141') }} km</div>
+  </div>
+</div>
+
+<p v-click class="catch text-3xl mt-10 text-center">Every miss became a rule.</p>
+
+<!--
+Three honest misses, one click each — then the catch line.
+1) 82 km: a castle is a class, not a place — we picked the wrong castle.
+2) 31 km: Tagus vs. Sado — two estuaries that look alike.
+3) 7 km: we read the sign perfectly, but the geocoder picked the headquarters instead of the branch the panorama shows.
+In all three cases a panorama taken minutes before or after was solved within metres. The distance from our wrong pin to that sibling matches the organisers' error almost exactly: 82.3 vs. 82.2 km, 30.9 vs. 30.6 km, 7.3 vs. 7.2 km. So these are not random misses — each one is a reproducible mistake, and each one became a rule for the Professor (next slide).
 -->
 
 ---
@@ -232,7 +291,7 @@ layout: full
 <PanoStrip src="/panos/praca-river.jpg" fill shade :seconds="140" />
 
 <div class="absolute left-16 bottom-14 right-16 z-10">
-  <h1 class="hero">Obrigado.</h1>
+  <h1 class="hero">Thank you.</h1>
   <div class="flex items-center gap-4 mt-6">
     <div class="tile-stripe w-16"></div>
     <span class="font-bold tracking-wide">Erasmus Team</span>
