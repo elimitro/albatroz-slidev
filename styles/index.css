@@ -1,0 +1,159 @@
+/* ============================================================
+   NAVEGADOR — global deck styles
+   Palette: Atlantic night + azulejo blue + Lisbon tram yellow.
+   Change the tokens here and the whole deck (incl. components) follows.
+   ============================================================ */
+:root {
+  --nav-night: #0a1724;      /* background — deep Atlantic */
+  --nav-deep: #102538;       /* cards / panels */
+  --nav-line: #1f3a55;       /* hairlines, inactive edges */
+  --nav-azulejo: #3d7bf0;    /* tools, links, primary accent */
+  --nav-azulejo-soft: #9bbcff;
+  --nav-tram: #f6c443;       /* agents, highlights, catch lines */
+  --nav-terracotta: #e8795a; /* humans, penalties, warnings */
+  --nav-cream: #f3ede2;      /* main text */
+  --nav-muted: #8aa0b8;      /* secondary text */
+  --slidev-theme-primary: var(--nav-tram);
+}
+
+.slidev-layout {
+  background:
+    radial-gradient(1200px 600px at 110% -10%, rgba(61, 123, 240, 0.18), transparent 60%),
+    radial-gradient(900px 500px at -10% 120%, rgba(246, 196, 67, 0.08), transparent 60%),
+    var(--nav-night);
+  color: var(--nav-cream);
+}
+
+.slidev-layout h1 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+.slidev-layout h2 { color: var(--nav-muted); font-weight: 500; }
+.slidev-layout h1 + p { opacity: 1; }
+.slidev-layout strong { color: var(--nav-tram); font-weight: 600; }
+.slidev-layout a { color: var(--nav-azulejo-soft); border-bottom: 1px dashed currentColor; }
+
+/* ---------- reusable building blocks for slides.md ---------- */
+
+/* small uppercase label above a headline */
+.kicker {
+  font-family: var(--slidev-code-font-family, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--nav-azulejo-soft);
+  margin-bottom: 0.6rem;
+}
+
+/* the big serif one-liner that people remember */
+.catch {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--nav-tram);
+  letter-spacing: -0.01em;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  border: 1px solid var(--nav-line);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+}
+.card h3 { margin: 0 0 0.25rem; font-size: 1.05rem; font-weight: 600; }
+.card p { margin: 0; font-size: 0.82rem; color: var(--nav-muted); line-height: 1.4; }
+
+.chip {
+  display: inline-block;
+  font-family: var(--slidev-code-font-family, monospace);
+  font-size: 0.68rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  vertical-align: middle;
+}
+.chip.agent { color: var(--nav-tram); }
+.chip.tool { color: var(--nav-azulejo-soft); }
+.chip.human { color: var(--nav-terracotta); }
+
+.muted { color: var(--nav-muted); }
+.tram { color: var(--nav-tram); }
+.azulejo { color: var(--nav-azulejo-soft); }
+.terracotta { color: var(--nav-terracotta); }
+
+/* thin azulejo-tile stripe used on cover / end slides */
+.tile-stripe {
+  height: 10px;
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--nav-azulejo) 0 18px, transparent 18px 22px,
+      var(--nav-azulejo-soft) 22px 30px, transparent 30px 34px);
+  opacity: 0.85;
+}
+
+/* slowly rotating compass on the cover */
+@keyframes nav-spin { to { transform: rotate(360deg); } }
+.compass-spin { animation: nav-spin 60s linear infinite; transform-origin: 50% 50%; }
+
+/* code blocks a bit darker so they sit on the night background */
+.slidev-layout pre, .slidev-code { background: #07111b !important; border: 1px solid var(--nav-line); }
+
+/* ============================================================
+   v2 building blocks — visual-first slides
+   ============================================================ */
+.hero { font-size: 84px !important; line-height: .95 !important; letter-spacing: -.045em !important; margin: 0 !important; }
+
+/* short tag pills under visuals (max ~3 words each) */
+.pill { display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .9rem; border-radius: 999px;
+  border: 1px solid var(--nav-line); background: rgba(255,255,255,.03); font-size: .85rem; white-space: nowrap; }
+.tram-pill { border-color: var(--nav-tram); color: var(--nav-tram); }
+
+/* A / B badge on panorama strips */
+.letter { position: absolute; top: 12px; left: 12px; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--nav-tram); color: var(--nav-night); font-weight: 800; font-size: 1.1rem; z-index: 2; }
+
+/* single model vs crew */
+.solo { font-size: 110px; line-height: 1; position: relative; display: inline-block; }
+.scribble { position: absolute; top: -18px; right: -46px; font-family: 'Fraunces', serif; font-style: italic; font-size: 34px; color: var(--nav-terracotta); transform: rotate(12deg); }
+.crew-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 18px; }
+.crew-grid > div { display: flex; align-items: center; gap: .7rem; font-weight: 600; font-size: 1rem; }
+.crew-grid span { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 22px;
+  background: var(--nav-deep); box-shadow: 0 0 0 2px var(--nav-tram); flex: none; }
+
+/* receipt */
+.bigpin { font-size: 120px; line-height: 1; filter: drop-shadow(0 16px 30px rgba(246,196,67,.35)); animation: bob 3s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-10px); } }
+.receipt { width: 300px; background: var(--nav-cream); color: var(--nav-night); padding: 18px 22px 26px; border-radius: 6px 6px 0 0;
+  font-family: var(--slidev-code-font-family, monospace); transform: rotate(2deg); box-shadow: 0 20px 50px rgba(0,0,0,.4);
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%;
+          mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%; }
+.r-head { text-align: center; letter-spacing: .4em; font-weight: 800; border-bottom: 2px dashed rgba(10,23,36,.3); padding-bottom: 10px; margin-bottom: 10px; }
+.r-row { display: flex; justify-content: space-between; font-size: .9rem; padding: 4px 0; }
+.r-row span { opacity: .6; }
+.receipt .tram { color: #b07d00; }
+
+/* MCQ mock + rank lock row */
+.mcq-mock { background: var(--nav-deep); border: 1px solid var(--nav-line); border-radius: 16px; padding: 20px 22px; box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+.mcq-mock .opt { margin-top: 10px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--nav-line); font-size: .95rem; }
+.mcq-mock .opt.pick { border-color: var(--nav-tram); background: rgba(246,196,67,.14); }
+.lockpin { width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; font-size: 16px;
+  background: var(--nav-deep); border: 1px solid var(--nav-line); }
+.lockpin.first { border-color: var(--nav-tram); box-shadow: 0 0 14px rgba(246,196,67,.35); }
+
+/* learning loop */
+.loop { width: 420px; overflow: visible; }
+.loop .ring { fill: none; stroke: var(--nav-line); stroke-width: 2; }
+.loop .ring-run { fill: none; stroke: var(--nav-tram); stroke-width: 3; stroke-dasharray: .18 .82; animation: spinring 4s linear infinite;
+  transform-origin: 200px 130px; }
+@keyframes spinring { to { stroke-dashoffset: -1; } }
+.loop g circle { fill: var(--nav-deep); stroke: var(--nav-azulejo); stroke-width: 2; }
+.loop g text { text-anchor: middle; font-size: 20px; }
+.loop .cap { font-size: 13px; fill: var(--nav-cream); font-weight: 600; }
+.loop .cap.r { text-anchor: start; } .loop .cap.l { text-anchor: end; }
+
+/* hero headline: the theme pulls a following <p> up and fades it — undo that */
+.slidev-layout .hero + p, .slidev-layout .hero + div { margin-top: 1.25rem !important; opacity: 1 !important; }
+/* every default-layout slide is vertically centred — no empty bottom half */
+.slidev-layout.default { display: flex; flex-direction: column; justify-content: center; }
