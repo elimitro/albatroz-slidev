@@ -111,6 +111,19 @@ The PDF is a backup only — **present from the browser**, otherwise CrewMap and
 
 ---
 
+## 6 · Deploy (GitHub Pages)
+
+[.github/workflows/deploy-slides.yml](.github/workflows/deploy-slides.yml) builds and publishes the deck automatically.
+
+- **Trigger:** every push to `main`, or manually via *Actions → Deploy slides to GitHub Pages → Run workflow*.
+- **One-time setting:** repo *Settings → Pages → Source = **GitHub Actions***.
+- **URL:** `https://<user>.github.io/<repo-name>/` (e.g. `https://elimitro.github.io/albatroz-slidev/`). Deep links work too: `…/<repo-name>/5`.
+- **How:** `npm ci` → `slidev build --base /<repo-name>/` → `dist/index.html` is copied to `404.html` (deep-link fallback) → uploaded and deployed. Panoramas in `public/panos/` are served from the same base.
+- **Roll back:** `git revert <bad-commit> && git push` — the workflow redeploys the previous state. (Or re-run an older successful run from the Actions tab.)
+- **Test it like CI:** `npx slidev build --base /<repo-name>/ && npx vite preview --base /<repo-name>/ --outDir dist`. In Git Bash on Windows prefix with `MSYS_NO_PATHCONV=1`, or the leading `/` gets rewritten to a Windows path.
+
+---
+
 ## Known issue
 
 Slidev 53.0.0 + the current Vite toolchain fails `slidev build` with a `lightningcss minify` error (even on an empty deck). `vite.config.ts` disables CSS minification to work around it. The dev server is unaffected. Delete the file once a fixed Slidev version is out.
