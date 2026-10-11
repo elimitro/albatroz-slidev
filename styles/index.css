@@ -110,18 +110,6 @@
   border: 1px solid var(--nav-line); background: rgba(255,255,255,.03); font-size: .85rem; white-space: nowrap; }
 .tram-pill { border-color: var(--nav-tram); color: var(--nav-tram); }
 
-/* A / B badge on panorama strips */
-.letter { position: absolute; top: 12px; left: 12px; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--nav-tram); color: var(--nav-night); font-weight: 800; font-size: 1.1rem; z-index: 2; }
-
-/* single model vs crew */
-.solo { font-size: 110px; line-height: 1; position: relative; display: inline-block; }
-.scribble { position: absolute; top: -18px; right: -46px; font-family: 'Fraunces', serif; font-style: italic; font-size: 34px; color: var(--nav-terracotta); transform: rotate(12deg); }
-.crew-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 18px; }
-.crew-grid > div { display: flex; align-items: center; gap: .7rem; font-weight: 600; font-size: 1rem; white-space: nowrap; }
-.crew-grid span { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 22px;
-  background: var(--nav-deep); box-shadow: 0 0 0 2px var(--nav-tram); flex: none; }
-
 /* receipt */
 .bigpin { font-size: 120px; line-height: 1; filter: drop-shadow(0 16px 30px rgba(246,196,67,.35)); animation: bob 3s ease-in-out infinite; }
 @keyframes bob { 50% { transform: translateY(-10px); } }
@@ -133,14 +121,6 @@
 .r-row { display: flex; justify-content: space-between; font-size: .9rem; padding: 4px 0; }
 .r-row span { opacity: .6; }
 .receipt .tram { color: #b07d00; }
-
-/* MCQ mock + rank lock row */
-.mcq-mock { background: var(--nav-deep); border: 1px solid var(--nav-line); border-radius: 16px; padding: 20px 22px; box-shadow: 0 20px 50px rgba(0,0,0,.35); }
-.mcq-mock .opt { margin-top: 10px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--nav-line); font-size: .95rem; }
-.mcq-mock .opt.pick { border-color: var(--nav-tram); background: rgba(246,196,67,.14); }
-.lockpin { width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; font-size: 16px;
-  background: var(--nav-deep); border: 1px solid var(--nav-line); }
-.lockpin.first { border-color: var(--nav-tram); box-shadow: 0 0 14px rgba(246,196,67,.35); }
 
 /* learning loop */
 .loop { width: 420px; overflow: visible; }
