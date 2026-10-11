@@ -4,7 +4,7 @@ theme: default
 title: Navegador — Erasmus Team
 info: |
   Navegador · a crew of AI agents that geolocates 360° panoramas.
-  Erasmus Team · Three Nations. One Goal. · Albatroz Challenge, JunctionX Lisbon 2026
+  Erasmus Team · Three Nations. One Goal. · Albatroz Engenharia Challenge, JunctionX Lisbon 2026
 colorSchema: dark
 transition: fade-out
 mdc: true
@@ -36,9 +36,9 @@ Open with a question: "If we drop you somewhere in Portugal with your eyes close
 transition: slide-left
 ---
 
-<div class="kicker">The challenge</div>
+<div class="kicker">The problem</div>
 
-# Where in the world is <span class="tram">here?</span>
+# Where in the world could <span class="tram">here</span> be?
 
 <PanoStrip src="/panos/village-granite.jpg" :height="250" :seconds="70" class="mt-8" />
 
