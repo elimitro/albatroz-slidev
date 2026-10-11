@@ -49,70 +49,26 @@ transition: slide-left
   <span v-click class="pill tram-pill">📍 10 pins</span>
 </div>
 
+<p v-click class="catch text-2xl mt-8">Looks alike. Lives apart.</p>
+
 <!--
 GeoGuessr — but the map is Iberia + France, and 500 m off in a city already hurts.
+The hardest part: far-apart places that look the same — north Portugal vs. Galicia, Alentejo vs. Extremadura.
 -->
 
 ---
-
-<div class="kicker">The boss level</div>
-
-# Looks alike. <span class="tram">Lives apart.</span>
-
-<div class="grid grid-cols-2 gap-6 mt-10">
-  <div v-click class="relative">
-    <PanoStrip src="/panos/village-granite.jpg" :height="230" :seconds="80" />
-    <span class="letter">A</span>
-  </div>
-  <div v-click class="relative">
-    <PanoStrip src="/panos/park-church.jpg" :height="230" :seconds="80" reverse />
-    <span class="letter">B</span>
-  </div>
-</div>
-
-<p v-click class="catch text-2xl mt-10 text-center">Old stone. Quiet square. Which country?</p>
-
-<!--
-Let the room guess for 3 seconds. TODO: reveal the answer you're sure about.
-Briefing theme: far-apart places that look alike.
--->
-
----
-
-<div class="kicker">The idea</div>
-
-# One brain guesses. <span class="tram">A crew investigates.</span>
-
-<div class="grid grid-cols-5 gap-10 mt-14 items-center">
-  <div class="col-span-2 text-center opacity-60">
-    <div class="solo">🤖<span class="scribble">?!?</span></div>
-    <div class="muted mt-4 text-sm">one look · one guess</div>
-  </div>
-  <div v-click class="col-span-3">
-    <div class="crew-grid">
-      <div><span>🔍</span>Lens</div><div><span>☀️</span>Astrolabe</div><div><span>📖</span>Reader</div>
-      <div><span>🌿</span>Geographer</div><div><span>🕵️</span>Detective</div><div><span>⚖️</span>Advocate</div>
-      <div><span>🧭</span>Navigator</div><div><span>♟️</span>Strategist</div><div><span>✍️</span>Scribe</div>
-    </div>
-  </div>
-</div>
-
-<!--
-Same lesson as our summer project: one chatbot is smart but chaotic — a crew with roles is reliable.
-"Nine specialists, one job each — like a real investigation team."
--->
-
----
-clicks: 10
+clicks: 9
 transition: slide-left
 ---
 
 <CrewStory :step="$clicks" />
 
 <!--
-Clicker drives the film: one click = one crew member.
-0 intro · 1 Lens · 2 Astrolabe · 3 Reader · 4 Geographer · 5 Detective · 6 Advocate · 7 Navigator · 8 Strategist · 9 Scribe · 10 overview.
-One sentence per agent, let the animation do the talking.
+One model guesses. So we built a crew — nine specialists, each with one job.
+Clicker drives the film: one click = one crew member. One sentence per agent, let the animation do the talking.
+0 intro · 1 Lupa · 2 Astrolábio · 3 Leitor · 4 Geógrafo · 5 Detetive · 6 Advogado · 7 Navegador · 8 Estratega · 9 overview (+ Escrivão).
+At the Navegador click (7): "We only ask a human when the math says it pays — and we lock our best pin before we ask."
+At the overview (9): the Escrivão sits at the end of the flow — every step is logged.
 -->
 
 ---
@@ -127,35 +83,6 @@ clicks: 4
 
 <!--
 The Detective never sees the photo. It only gets clues — and it checks every one. A street sign becomes a Nominatim search, "a castle on a hill" becomes every castle in the region from OpenStreetMap, and the sun flags places where it couldn't be. Every pin we submit traces back to its source.
--->
-
----
-
-<div class="kicker">Humans in the loop</div>
-
-# Ask smart. <span class="tram">Not often.</span>
-
-<div class="grid grid-cols-2 gap-14 mt-10 items-center">
-  <div class="mcq-mock">
-    <div class="flex justify-between items-baseline"><b>Which zone fits?</b><span class="terracotta text-xs font-mono">×0.95</span></div>
-    <div class="opt pick">A · Tagus estuary</div>
-    <div class="opt">B · Douro valley</div>
-    <div class="opt">C · Neither</div>
-  </div>
-  <div>
-    <div v-click class="flex gap-1.5">
-      <div class="lockpin first">🔒</div>
-      <div v-for="i in 9" :key="i" class="lockpin">📍</div>
-    </div>
-    <p v-after class="muted text-sm mt-3">Commit first. Then ask.</p>
-    <div v-click class="flex gap-3 mt-8">
-      <span class="pill">🖱️ click</span><span class="pill">max 2 questions</span><span class="pill">🛡️ cue guard</span>
-    </div>
-  </div>
-</div>
-
-<!--
-The agent writes the question, we only click. Penalties only hit pins committed after the question — so we lock the best guess first.
 -->
 
 ---
